@@ -1,12 +1,21 @@
 {
 	"name": "Swap JS",
 	"version": "0.1",
-	"manifest_version": 1,
+	"manifest_version": 2,
 	"description": "Debugger that can swap minified Javascript with human readable Javascript.",
-	"browser_action": {
-		"default_icon": "icon.png"
+	"permissions" : [
+		"tabs", "http://*/*", "https://*/*"
+	],
+	"browser_action" : {
+		"default_icon": "icon.png",
+		"default_popup": "popup.html",
+		"default_title" : "display the scripts in this page"
 	},
-	"permissions": [
-		"http://api.flickr.com/"
-		]
+	"content_scripts": [
+		{
+			"matches": ["http://*/*", "https://*/*"],
+			"js" : ["swap.js"],
+			"run_at" : "document_end"
+		}
+	]
 }
