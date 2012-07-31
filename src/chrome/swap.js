@@ -9,7 +9,15 @@ function getScripts(){
 	return scripts;
 }
 
+var port = chrome.extension.connect({"name":"swap"});
 
+chrome.extension.onConnect.addListener(function(port){
+        port.onMessage.addListener(function( msg ){
+            alert("CS [" + msg + "]" );
+        });
+});
+
+/*
 chrome.extension.onMessage.addListener( function( request, sender, sendResponse ){
 	//alert( sender.tab ? "from content script:" + sender.tab.url : "from extension");
 	if( request != null  ){
@@ -24,6 +32,6 @@ chrome.extension.onMessage.addListener( function( request, sender, sendResponse 
 		}
 	}
 });
-
+*/
 
 

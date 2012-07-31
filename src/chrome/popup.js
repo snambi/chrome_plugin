@@ -1,15 +1,35 @@
 
+
+// connect to the content script
+var port=null;
+var tabId=null;
+
+chrome.windows.getCurrent(function(win) { 
+        chrome.tabs.query( {'windowId': win.id, 'active': true}, function(tabArray){ 
+            if( tabArray instanceof Array ){
+                alert("tabs " + tabArray.length  + " " + tabArray[0].id );
+                tabId = tabArray[0].id;
+            }
+        }); 
+});
+
+chrome.tabs.getSelected( null, function(tab){
+        alert( "tab [" + tab.id + "]" );
+     if( port == null){
+        var name = { "name" : "swap"};
+        port = chrome.tabs.connect( tab.id, name);
+     }
+});
+
 function click( e ){
-	//chrome.tabs.executeScript( null, {file: "swap.js" } );
 	chrome.tabs.getSelected(null, function( tab ){
-		//alert("tab ["+ tab.id + "]");
 		var cmd = { "command" : "get_scripts" };
-		chrome.tabs.sendMessage( tab.id, cmd , function( response ){
-			alert("message received");
-			alert(response );
-		});
+        if( port != null ){
+            port.postMessage( cmd );
+        }else{
+            alert("connection doesn't exist");
+        }
 	});
-	//window.close();
 }
 
 document.addEventListener( 'DOMContentLoaded', function(){
@@ -18,9 +38,5 @@ document.addEventListener( 'DOMContentLoaded', function(){
 		divs[i].addEventListener('click', click );
 	}
 });
-
-function getScripts(){
-	alert('hello');
-}
 
 
