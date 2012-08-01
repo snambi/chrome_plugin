@@ -20,16 +20,27 @@ function init(){
 	    // find the tab.id of current tab
         chrome.tabs.query( {'windowId': win.id, 'active': true}, function(tabArray){
             if( tabArray instanceof Array ){
-                alert("tabs " + tabArray.length  + " " + tabArray[0].id );
+                //alert("tabs " + tabArray.length  + " " + tabArray[0].id );
                 tabId = tabArray[0].id;
             }
 
 	        // create a port
      	    if( port == null){
 		        var name = { "name" : "swap"};
-		        alert("connecting to tab : " + tabId);
+		        //alert("connecting to tab : " + tabId);
 		        port = chrome.tabs.connect( tabId, name);
-		        port.postMessage( cmd_get_scripts );
+
+			/* function to send a message to the 'content' script port */
+			function click( e ){
+				chrome.tabs.getSelected(null, function( tab ){
+					var cmd = { "command" : "get_scripts" };
+					if( port != null ){
+						port.postMessage( cmd );
+					}else{
+						alert("connection doesn't exist");
+					}
+				});
+			}
 	    
 		        // handle incoming messages
 		        port.onMessage.addListener(function(msg){
@@ -37,7 +48,6 @@ function init(){
 			            alert(msg);
 		            }
 		        });
-     	    }
 
 	        // add an 'click' event listener for 'div' elements
 	        document.addEventListener( 'DOMContentLoaded', function(){
@@ -46,20 +56,13 @@ function init(){
 		            divs[i].addEventListener('click', click );
 		        }
 	        });
+
+     	    }
+
         }); 
     });
 }
 
-/* function to send a message to the 'content' script port */
-function click( e ){
-	chrome.tabs.getSelected(null, function( tab ){
-		var cmd = { "command" : "get_scripts" };
-		if( port != null ){
-			port.postMessage( cmd );
-		}else{
-			alert("connection doesn't exist");
-		}
-	});
-}
 
-
+// call the 'init' once the document is loaded
+document.addEventListener('DOMContentLoaded', init, false);

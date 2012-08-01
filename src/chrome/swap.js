@@ -14,6 +14,7 @@ var port = chrome.extension.connect({"name":"swap"});
 chrome.extension.onConnect.addListener(function(port){
         port.onMessage.addListener(function( msg ){
             alert("CS [" + JSON.stringify(msg) + "]" );
+
         });
 });
 
