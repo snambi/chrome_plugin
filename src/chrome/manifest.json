@@ -10,6 +10,7 @@
         "notifications",
         "contextMenus"
 	],
+    "content_security_policy": "default-src 'self'; style-src 'self'; script-src 'self'; object-src 'self'  ",
 	"browser_action" : {
 		"default_icon": "icon.png",
 		"default_popup": "popup.html",
