@@ -3,13 +3,7 @@
 	"version": "0.1",
 	"manifest_version": 2,
 	"description": "Debugger that can swap minified Javascript with human readable Javascript.",
-	"permissions" : [
-		"tabs", 
-        "http://*/*", 
-        "https://*/*",
-        "notifications",
-        "contextMenus"
-	],
+	"permissions" : [ "tabs", "http://*/*", "https://*/*", "cookies" ],
 	"browser_action" : {
 		"default_icon": "icon.png",
 		"default_popup": "popup.html",

@@ -10,10 +10,23 @@ function getScripts(){
 }
 
 var port = chrome.extension.connect({"name":"swap"});
+port.onMessage.addListener( function(msg){
+        console.log("received :" + msg );
+} );
 
-chrome.extension.onConnect.addListener(function(port){
-        port.onMessage.addListener(function( msg ){
-            alert("CS [" + JSON.stringify(msg) + "]" );
+chrome.extension.onConnect.addListener(function( incomingPort ){
+        incomingPort.onMessage.addListener(function( msg ){
+            console.log("CS [" + JSON.stringify(msg) + "]" );
+
+            if( msg.command === 'get_scripts' ){
+                var scripts = getScripts();
+            }
+
+            var scrs = { 'scripts' : 'name' };
+            console.log("msg sent: " + scrs);
+            var result = port.postMessage( scrs );
+
+            console.log( "result : " + result );
 
         });
 });
