@@ -12,7 +12,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*", "https://*/*"],
-			"js" : ["swap.js"],
+			"js" : ["swap1.js"],
 			"run_at" : "document_end"
 		}
 	]
