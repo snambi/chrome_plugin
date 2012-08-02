@@ -1,5 +1,5 @@
 {
-	"name": "Swap JS",
+	"name": "swapJS",
 	"version": "0.1",
 	"manifest_version": 2,
 	"description": "Debugger that can swap minified Javascript with human readable Javascript.",
@@ -12,7 +12,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*", "https://*/*"],
-			"js" : ["swap1.js"],
+			"js" : ["swap2.js"],
 			"run_at" : "document_end"
 		}
 	]
